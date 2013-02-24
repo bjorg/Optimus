@@ -25,6 +25,8 @@ namespace OptimusTest.Text.StringRangeTest {
     [TestFixture]
     public class Ctor {
 
+        //--- Methods ---
+
         [Test]
         public void Empty_string() {
 

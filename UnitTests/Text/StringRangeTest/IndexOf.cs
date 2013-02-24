@@ -25,6 +25,8 @@ namespace OptimusTest.Text.StringRangeTest {
     [TestFixture]
     public class IndexOf {
 
+        //--- Methods ---
+
         [Test]
         public void Index_for_non_empty_string_in_empty_string_is_negative() {
 

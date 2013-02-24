@@ -25,6 +25,8 @@ namespace OptimusTest.Text.StringRangeTest {
     [TestFixture]
     public class Split {
 
+        //--- Methods ---
+
         [Test]
         public void Empty_string_has_only_one_split() {
 

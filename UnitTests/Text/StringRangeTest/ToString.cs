@@ -25,6 +25,8 @@ namespace OptimusTest.Text.StringRangeTest {
     [TestFixture]
     public class ToString {
 
+        //--- Methods ---
+
         // TODO: add ToString() tests
     }
 }
