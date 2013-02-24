@@ -52,3 +52,55 @@ Code Formatting
 License
 -------
 Optimus is an open source library with an Apache 2.0 license.
+
+Performance Status
+==================
+
+This section shows the current status for provided implementations.  Note that since this library is not yet released, 
+none of the implementations are considered production ready.
+
+## Optimus.Text.StringRange
+
+### Split() - FAIL
+
+StringRange.Split() uses the **yield** operator to create an an implicit iterator.  From the results below, this seems 
+to create an *enormous* amount of memory overhead.
+
+The native String.Split() method is faster for longer strings, which may have to do with it being natively implemented,
+or the managed version suffering from more aggressive bound checks (or the callback overhead).
+
+**Running Optimus.PerfTests.OptimusTest.Text.StringRangeTest.Split.Split\_long\_strings ...**
+
+        --- String.Split(long-strings) with loop ---
+        #0: 4,096 bytes, 0.236 ms
+        #1: 118,784 bytes, 1.373 ms
+        #2: 8,192 bytes, 17.748 ms
+        #3: 8,192 bytes, 172.521 ms
+        #4: 20,480 bytes, 1,729.911 ms
+        #5: 212,992 bytes, 17,223.379 ms
+
+        --- StringRange.Split(long-strings) with loop ---
+        #0: 0 bytes, 0.239 ms
+        #1: 0 bytes, 2.116 ms
+        #2: 118,784 bytes, 20.724 ms
+        #3: 425,984 bytes, 213.324 ms
+        #4: 180,224 bytes, 2,150.069 ms
+        #5: 335,872 bytes, 21,793.517 ms
+
+**Running Optimus.PerfTests.OptimusTest.Text.StringRangeTest.Split.Split\_short\_strings ...**
+        
+        --- String.Split(short-strings) with loop ---
+        #0: 0 bytes, 0.064 ms
+        #1: 45,056 bytes, 0.582 ms
+        #2: 8,192 bytes, 7.631 ms
+        #3: 122,880 bytes, 73.628 ms
+        #4: 73,728 bytes, 732.697 ms
+        #5: 286,720 bytes, 7,351.504 ms
+
+        --- StringRange.Split(short-strings) with loop ---
+        #0: 0 bytes, 0.112 ms
+        #1: 4,096 bytes, 0.657 ms
+        #2: 114,688 bytes, 5.611 ms
+        #3: 327,680 bytes, 59.026 ms
+        #4: 344,064 bytes, 602.991 ms
+        #5: 507,904 bytes, 6,033.464 ms
