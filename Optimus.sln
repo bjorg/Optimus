@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Optimus", "Optimus\Optimus.csproj", "{087066AF-DD45-4850-8556-75916432DFFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{530F2814-BDA3-43C0-BDAA-CB2C45573F3A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BCF21B7B-5A87-49A6-8DE5-899628788C5A}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		LICENSE = LICENSE
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{087066AF-DD45-4850-8556-75916432DFFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{087066AF-DD45-4850-8556-75916432DFFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{087066AF-DD45-4850-8556-75916432DFFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{087066AF-DD45-4850-8556-75916432DFFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{530F2814-BDA3-43C0-BDAA-CB2C45573F3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{530F2814-BDA3-43C0-BDAA-CB2C45573F3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{530F2814-BDA3-43C0-BDAA-CB2C45573F3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{530F2814-BDA3-43C0-BDAA-CB2C45573F3A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Optimus\Optimus.csproj
+	EndGlobalSection
+EndGlobal
