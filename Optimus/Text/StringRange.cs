@@ -156,6 +156,7 @@ namespace Optimus.Text {
             return Split(c => Array.IndexOf(separator, c) >= 0, count, options);
         }
 
+        // TODO: docs missing
         public IEnumerable<StringRange> Split(Predicate<char> isSeparator, int count, StringSplitOptions options) {
             if(isSeparator == null) {
                 throw new ArgumentNullException("isSeparator");

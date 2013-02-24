@@ -79,14 +79,29 @@ namespace OptimusTest.Text.StringRangeTest {
         //--- Methods ---
 
         [Test]
-        public void Split_string() {
+        public void Split_short_strings() {
             const string text = "123,456,789,123,456,789,123,456,789,123,456,789,123,456,789,123,456,789,123,456,789,123,456,789";
-            Measure("String.Split() with loop", () => {
+            Measure("String.Split(short-strings) with loop", () => {
                 foreach(var item in text.Split(',')) {
                     // nothing
                 }
             });
-            Measure("StringRange.Split() with loop", () => {
+            Measure("StringRange.Split(short-strings) with loop", () => {
+                foreach(var item in new StringRange(text).Split(',')) {
+                    // nothing
+                }
+            });
+        }
+        
+        [Test]
+        public void Split_long_strings() {
+            const string text = "123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890";
+            Measure("String.Split(long-strings) with loop", () => {
+                foreach(var item in text.Split(',')) {
+                    // nothing
+                }
+            });
+            Measure("StringRange.Split(long-strings) with loop", () => {
                 foreach(var item in new StringRange(text).Split(',')) {
                     // nothing
                 }
