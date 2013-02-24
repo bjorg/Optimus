@@ -19,9 +19,13 @@ using System.Globalization;
 using System.Collections.Generic;
 
 namespace Optimus.Text {
+
+    // TODO: docs missing
     public struct StringRange {
 
         //--- Class Fields ---
+
+        // TODO: docs missing
         public static readonly StringRange Empty = new StringRange("");
 
         //--- Fields ---
@@ -30,8 +34,11 @@ namespace Optimus.Text {
         private int _count;
 
         //--- Constructors ---
-        public StringRange(string source) : this(source, 0, source.Length) { }
 
+        // TODO: docs missing
+        public StringRange(string source) : this(source, 0, (source != null) ? source.Length : 0) { }
+
+        // TODO: docs missing
         public StringRange(string source, int startIndex, int count) {
             if(source == null) {
                 throw new ArgumentNullException("text");
@@ -42,6 +49,13 @@ namespace Optimus.Text {
             if((count < 0) || ((source.Length - startIndex) < count)) {
                 throw new ArgumentOutOfRangeException("count");
             }
+            _source = source;
+            _startIndex = startIndex;
+            _count = count;
+        }
+
+        // TODO: docs missing
+        private StringRange(string source, int startIndex, int count, bool @private) {
             _source = source;
             _startIndex = startIndex;
             _count = count;
@@ -74,6 +88,8 @@ namespace Optimus.Text {
         // TODO: text.TrimStart();
 
         //--- Properties ---
+
+        // TODO: docs missing
         public char this[int index] {
             get {
                 if((index < 0) || (index >= _count)) {
@@ -83,13 +99,17 @@ namespace Optimus.Text {
             }
         }
 
+        // TODO: docs missing
         public int Length { get { return _count; } }
 
         //--- Methods ---
+
+        // TODO: docs missing
         public bool Contains(StringRange value) {
             return IndexOf(value) >= 0;
         }
 
+        // TODO: docs missing
         public unsafe int IndexOf(StringRange value) {
             if(value._count == 0) {
                 return 0;
@@ -113,18 +133,22 @@ namespace Optimus.Text {
             return -1;
         }
 
+        // TODO: docs missing
         public IEnumerable<StringRange> Split(params char[] separator) {
             return Split(separator, int.MaxValue, StringSplitOptions.None);
         }
 
+        // TODO: docs missing
         public IEnumerable<StringRange> Split(char[] separator, StringSplitOptions options) {
             return Split(separator, int.MaxValue, options);
         }
 
+        // TODO: docs missing
         public IEnumerable<StringRange> Split(char[] separator, int count) {
             return Split(separator, count, StringSplitOptions.None);
         }
 
+        // TODO: docs missing
         public IEnumerable<StringRange> Split(char[] separator, int count, StringSplitOptions options) {
             if((separator == null) || (separator.Length == 0)) {
                 return Split(char.IsWhiteSpace, count, options);
@@ -153,7 +177,7 @@ namespace Optimus.Text {
                 if(isSeparator(_source[current])) {
                     length = current - start;
                     if(length > 0) {
-                        yield return new StringRange(_source, start, length);
+                        yield return new StringRange(_source, start, length, true);
                         --count;
                     } else if((options & StringSplitOptions.RemoveEmptyEntries) == 0) {
                         yield return Empty;
@@ -161,21 +185,22 @@ namespace Optimus.Text {
                     }
                     start = current + 1;
                     if(count == 1) {
-                        yield return new StringRange(_source, start, end - start);
+                        yield return new StringRange(_source, start, end - start, true);
                         yield break;
                     }
                 }
             }
             length = end - start;
             if(length > 0) {
-                yield return new StringRange(_source, start, length);
+                yield return new StringRange(_source, start, length, true);
             } else if((options & StringSplitOptions.RemoveEmptyEntries) == 0) {
                 yield return Empty;
             }
         }
 
+        // TODO: docs missing
         public override string ToString() {
-            return (_count == 0) ? string.Empty : _source.Substring(_startIndex, _count);
+            return (_count == 0) ? "" : _source.Substring(_startIndex, _count);
         }
     }
 }

@@ -25,7 +25,150 @@ namespace OptimusTest.Text.StringRangeTest {
     [TestFixture]
     public class Ctor {
 
-        // TODO: add constructor tests
+        [Test]
+        public void Empty_string() {
+
+            // setup
+            var text = "";
+
+            // test
+            var value = new StringRange(text);
+
+            // validation
+            Assert.AreEqual(0, value.Length);
+            Assert.AreEqual("", value.ToString());
+        }
+        
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Null_string() {
+            
+            // setup
+            string text = null;
+            
+            // test
+            var value = new StringRange(text);
+            
+            // validation
+            Assert.Fail("exception expected");
+            Assert.AreEqual(0, value.Length);
+        }
+
+        [Test]
+        public void Zero_length_string() {
+            
+            // setup
+            var text = "foo";
+
+            // test
+            var value = new StringRange(text, 0, 0);
+            
+            // validation
+            Assert.AreEqual(0, value.Length);
+            Assert.AreEqual("", value.ToString());
+        }
+        
+        [Test]
+        public void Full_string() {
+            
+            // setup
+            var text = "foo";
+            
+            // test
+            var value = new StringRange(text);
+            
+            // validation
+            Assert.AreEqual(text.Length, value.Length);
+            Assert.AreEqual(text, value.ToString());
+        }
+        
+        [Test]
+        public void Substring() {
+            
+            // setup
+            var text = "barfoobar";
+            
+            // test
+            var value = new StringRange(text, 3, 3);
+            
+            // validation
+            Assert.AreEqual(3, value.Length);
+            Assert.AreEqual("foo", value.ToString());
+        }
+        
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void String_with_negative_startIndex() {
+            
+            // setup
+            var text = "foo";
+            
+            // test
+            var value = new StringRange(text, -1, 0);
+            
+            // validation
+            Assert.Fail("exception expected");
+            Assert.AreEqual(0, value.Length);
+        }
+
+        [Test]
+        public void Zero_length_string_with_startIndex_equal_to_string_length() {
+            
+            // setup
+            var text = "foo";
+            
+            // test
+            var value = new StringRange(text, text.Length, 0);
+            
+            // validation
+            Assert.AreEqual(0, value.Length);
+            Assert.AreEqual("", value.ToString());
+        }
+        
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void String_with_startIndex_beyond_string_length() {
+            
+            // setup
+            var text = "foo";
+            
+            // test
+            var value = new StringRange(text, text.Length + 1, 0);
+            
+            // validation
+            Assert.Fail("exception expected");
+            Assert.AreEqual(0, value.Length);
+        }
+        
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void String_with_count_greater_than_string_length() {
+            
+            // setup
+            var text = "foo";
+            
+            // test
+            var value = new StringRange(text, 0, text.Length + 1);
+            
+            // validation
+            Assert.Fail("exception expected");
+            Assert.AreEqual(0, value.Length);
+        }
+        
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void String_with_combined_startIndex_plut_count_greater_than_string_length() {
+            
+            // setup
+            var text = "foo";
+            
+            // test
+            var value = new StringRange(text, 1, text.Length);
+            
+            // validation
+            Assert.Fail("exception expected");
+            Assert.AreEqual(0, value.Length);
+        }
     }
 }
 
