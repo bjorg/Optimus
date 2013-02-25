@@ -6,8 +6,8 @@
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{389B0D3B-C6C0-4163-A8A3-03B93C80A3A3}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>PerfTests</RootNamespace>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>OptimusTest</RootNamespace>
     <AssemblyName>PerfTests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
@@ -27,21 +27,24 @@
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>False</ConsolePause>
+    <EnvironmentVariables>
+      <EnvironmentVariables>
+        <Variable name="GC_DONT_GC" value="1" />
+      </EnvironmentVariables>
+    </EnvironmentVariables>
+    <Externalconsole>True</Externalconsole>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="nunit.framework">
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Text\" />
-    <Folder Include="Text\StringRangeTest\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Text\StringRangeTest\Split.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Text\StringRangeTest.cs" />
+    <Compile Include="TestBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Optimus\Optimus.csproj">

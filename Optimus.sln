@@ -35,6 +35,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Optimus\Optimus.csproj
+		StartupItem = PerfTests\PerfTests.csproj
 	EndGlobalSection
 EndGlobal
