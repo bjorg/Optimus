@@ -26,17 +26,28 @@ namespace OptimusTest.Text {
         //--- Methods ---
         public void Split_short_strings() {
             const string text = "123,456,789,123,456,789,123,456,789,123,456,789,123,456,789,123,456,789,123,456,789,123,456,789";
+            var textRange = new StringRange(text);
+            var chars = new[] { ',' };
             Measure("String.Split(short-strings)", () => {
                 var result  = 0;
-                foreach(var item in text.Split(',')) {
+                foreach(var item in text.Split(chars)) {
                     result += item.Length;
                 }
                 return result;
             });
             Measure("StringRange.Split(short-strings)", () => {
                 var result  = 0;
-                foreach(var item in new StringRange(text).Split(',')) {
+                foreach(var item in textRange.Split(chars)) {
                     result += item.Length;
+                }
+                return result;
+            });
+            Measure("StringRange.Split(short-strings, out)", () => {
+                var result  = 0;
+                StringRange found;
+                StringRange next = textRange;
+                while(next.Split(chars, out found, out next)) {
+                    result += found.Length;
                 }
                 return result;
             });
@@ -44,17 +55,28 @@ namespace OptimusTest.Text {
         
         public void Split_long_strings() {
             const string text = "123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890,123456789012345678901234567890";
+            var textRange = new StringRange(text);
+            var chars = new[] { ',' };
             Measure("String.Split(long-strings)", () => {
                 var result  = 0;
-                foreach(var item in text.Split(',')) {
+                foreach(var item in text.Split(chars)) {
                     result += item.Length;
                 }
                 return result;
             });
             Measure("StringRange.Split(long-strings)", () => {
                 var result  = 0;
-                foreach(var item in new StringRange(text).Split(',')) {
+                foreach(var item in textRange.Split(chars)) {
                     result += item.Length;
+                }
+                return result;
+            });
+            Measure("StringRange.Split(long-strings, out)", () => {
+                var result  = 0;
+                StringRange found;
+                StringRange next = textRange;
+                while(next.Split(chars, out found, out next)) {
+                    result += found.Length;
                 }
                 return result;
             });

@@ -121,6 +121,7 @@ namespace Optimus.Text {
 
         // TODO: docs missing
         public static readonly StringRange Empty = new StringRange("");
+        private static readonly StringRange Null = new StringRange();
 
         //--- Fields ---
         private string _source;
@@ -216,8 +217,8 @@ namespace Optimus.Text {
                 var rightEnd = rightStart + value._count;
                 var stop = _startIndex + _count - value._count;
                 for(int position = _startIndex; position <= stop; ++position) {
-                    char* left = leftStart + position;
-                    char* right = rightStart + value._startIndex;
+                    var left = leftStart + position;
+                    var right = rightStart + value._startIndex;
                     for(; (right < rightEnd) && (left < leftEnd) && (*left == *right); ++left, ++right);
                     if(right == rightEnd) {
                         return position - _startIndex;
@@ -252,7 +253,7 @@ namespace Optimus.Text {
 
         // TODO: docs missing
         public IEnumerable<StringRange> Split(Predicate<char> isSeparator, int count, StringSplitOptions options) {
-            return Split_Candidate2(isSeparator, count, options);
+            return Split_Candidate1(isSeparator, count, options);
         }
 
         private IEnumerable<StringRange> Split_Candidate2(Predicate<char> isSeparator, int count, StringSplitOptions options) {
@@ -275,15 +276,13 @@ namespace Optimus.Text {
             }
             var start = _startIndex;
             var end = _startIndex + _count;
+            var keepEmptyEntries = ((options & StringSplitOptions.RemoveEmptyEntries) == 0);
             int length;
             for(var current = start; current < end; ++current) {
                 if(isSeparator(_source[current])) {
                     length = current - start;
-                    if(length > 0) {
+                    if((length > 0) || keepEmptyEntries) {
                         yield return new StringRange(_source, start, length, true);
-                        --count;
-                    } else if((options & StringSplitOptions.RemoveEmptyEntries) == 0) {
-                        yield return Empty;
                         --count;
                     }
                     start = current + 1;
@@ -294,11 +293,55 @@ namespace Optimus.Text {
                 }
             }
             length = end - start;
-            if(length > 0) {
+            if((length > 0) || keepEmptyEntries) {
                 yield return new StringRange(_source, start, length, true);
-            } else if((options & StringSplitOptions.RemoveEmptyEntries) == 0) {
-                yield return Empty;
             }
+        }
+
+        public bool Split(char[] separator, out StringRange found, out StringRange next) {
+            if((separator == null) || (separator.Length == 0)) {
+                return Split(char.IsWhiteSpace, StringSplitOptions.None, out found, out next);
+            }
+            return Split(c => Array.IndexOf(separator, c) >= 0, StringSplitOptions.None, out found, out next);
+        }
+
+        private bool Split(Predicate<char> isSeparator, StringSplitOptions options, out StringRange found, out StringRange next) {
+            if(isSeparator == null) {
+                throw new ArgumentNullException("isSeparator");
+            }
+            if(_source == null) {
+                found = Null;
+                next = Null;
+                return false;
+            }
+            var start = _startIndex;
+            var end = _startIndex + _count;
+            var keepEmptyEntries = ((options & StringSplitOptions.RemoveEmptyEntries) == 0);
+            int length;
+            for(var current = start; current < end; ++current) {
+                if(isSeparator(_source[current])) {
+                    length = current - start;
+                    if((length > 0) || keepEmptyEntries) {
+                        found = new StringRange(_source, start, length, true);
+                        if(start + length < end) {
+                            next = new StringRange(_source, start + length + 1, end - (start + length + 1), true);
+                        } else {
+                            next = Null;
+                        }
+                        return true;
+                    }
+                    start = current + 1;
+                }
+            }
+            length = end - start;
+            if((length > 0) || keepEmptyEntries) {
+                found = new StringRange(_source, start, length, true);
+                next = Null;
+                return true;
+            }
+            found = Null;
+            next = Null;
+            return false;
         }
 
         // TODO: docs missing

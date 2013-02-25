@@ -29,7 +29,7 @@
     <WarningLevel>4</WarningLevel>
     <EnvironmentVariables>
       <EnvironmentVariables>
-        <Variable name="GC_DONT_GC" value="1" />
+        <Variable name="GC_DONT_GC" value="0" />
       </EnvironmentVariables>
     </EnvironmentVariables>
     <Externalconsole>True</Externalconsole>
