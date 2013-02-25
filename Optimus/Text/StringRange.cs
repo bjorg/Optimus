@@ -13,15 +13,109 @@
  * limitations under the License.
  * 
  */
-
 using System;
 using System.Globalization;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace Optimus.Text {
 
     // TODO: docs missing
     public struct StringRange {
+
+        //--- Types ---
+        private sealed class Enumerable : IEnumerable<StringRange> {
+            
+            //--- Fields ---
+            internal readonly string Source;
+            internal readonly int StartIndex;
+            internal readonly int Count;
+            internal readonly Predicate<char> IsSeparator;
+            internal readonly int SplitCount;
+            internal readonly bool KeepEmptyEntries;
+            
+            //--- Constructors ---
+            public Enumerable(string source, int startIndex, int count, Predicate<char> isSeparator, int splitCount, StringSplitOptions options) {
+                Source = source;
+                StartIndex = startIndex;
+                Count = count;
+                IsSeparator = isSeparator;
+                SplitCount = splitCount;
+                KeepEmptyEntries = ((options & StringSplitOptions.RemoveEmptyEntries) == 0);
+            }
+            
+            //--- Methods ---
+            public IEnumerator<StringRange> GetEnumerator() {
+                return new Enumerator(this, SplitCount);
+            }
+            
+            //--- IEnumerator Members ---
+            IEnumerator IEnumerable.GetEnumerator() {
+                return this.GetEnumerator();
+            }
+        }
+        
+        private sealed class Enumerator : IEnumerator<StringRange> {
+            
+            //--- Fields ---
+            private readonly Enumerable _enumerable;
+            private int _splitCount;
+            private int _start;
+            private int _current;
+            private int _end;
+            
+            //--- Constructors ---
+            public Enumerator(Enumerable enumerable, int splitCount) {
+                _enumerable = enumerable;
+                Reset();
+            }
+            
+            //--- Methods ---
+            public bool MoveNext() {
+                if((_current == _end) || (_splitCount == 0)) {
+                    return false;
+                }
+                if(_splitCount == 1) {
+                    _splitCount = 0;
+                    return true;
+                }
+                _start = _current + 1;
+                for(_current = _start; _current < _end; ++_current) {
+                    if(_enumerable.IsSeparator(_enumerable.Source[_current])) {
+                        if((_current > _start) || _enumerable.KeepEmptyEntries) {
+                            --_splitCount;
+                            return true;
+                        }
+                        _start = _current + 1;
+                    }
+                }
+                return (_end > _start) || _enumerable.KeepEmptyEntries;
+            }
+            
+            public void Reset() {
+                _splitCount = _enumerable.SplitCount;
+                _current = _enumerable.StartIndex - 1;
+                _end = _start + _enumerable.Count;
+            }
+            
+            public void Dispose() { }
+            
+            public StringRange Current {
+                get {
+                    if(_splitCount == 0) {
+                        return new StringRange(_enumerable.Source, _start, _end - _start, true);
+                    }
+                    return new StringRange(_enumerable.Source, _start, _current - _start, true);
+                }
+            }
+            
+            //--- IEnumerator Members ---
+            object IEnumerator.Current {
+                get {
+                    throw new NotImplementedException();
+                }
+            }
+        }
 
         //--- Class Fields ---
 
@@ -55,7 +149,7 @@ namespace Optimus.Text {
         }
 
         // TODO: docs missing
-        private StringRange(string source, int startIndex, int count, bool @private) {
+        internal StringRange(string source, int startIndex, int count, bool @private) {
             _source = source;
             _startIndex = startIndex;
             _count = count;
@@ -158,6 +252,14 @@ namespace Optimus.Text {
 
         // TODO: docs missing
         public IEnumerable<StringRange> Split(Predicate<char> isSeparator, int count, StringSplitOptions options) {
+            return Split_Candidate2(isSeparator, count, options);
+        }
+
+        private IEnumerable<StringRange> Split_Candidate2(Predicate<char> isSeparator, int count, StringSplitOptions options) {
+            return new Enumerable(_source, _startIndex, _count, isSeparator, count, options);
+        }
+
+        private IEnumerable<StringRange> Split_Candidate1(Predicate<char> isSeparator, int count, StringSplitOptions options) {
             if(isSeparator == null) {
                 throw new ArgumentNullException("isSeparator");
             }
