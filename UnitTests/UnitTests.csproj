@@ -39,7 +39,6 @@
   <ItemGroup>
     <Compile Include="Text\StringRangeTest\IndexOf.cs" />
     <Compile Include="Text\StringRangeTest\Contains.cs" />
-    <Compile Include="Text\StringRangeTest\Split.cs" />
     <Compile Include="Text\StringRangeTest\ToString.cs" />
     <Compile Include="Text\StringRangeTest\Ctor.cs" />
   </ItemGroup>

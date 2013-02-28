@@ -26,7 +26,6 @@ namespace OptimusTest {
                 Console.WriteLine("WARNING: GC is NOT disabled! Memory usage results will not be accurate.");
                 Console.WriteLine();
             }
-            new Text.StringRangeTest().Test();
         }
     }
 }
