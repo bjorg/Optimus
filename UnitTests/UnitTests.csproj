@@ -36,12 +36,6 @@
     </Reference>
     <Reference Include="System.Core" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Text\StringRangeTest\IndexOf.cs" />
-    <Compile Include="Text\StringRangeTest\Contains.cs" />
-    <Compile Include="Text\StringRangeTest\ToString.cs" />
-    <Compile Include="Text\StringRangeTest\Ctor.cs" />
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Text\" />
@@ -51,5 +45,8 @@
       <Project>{087066AF-DD45-4850-8556-75916432DFFF}</Project>
       <Name>Optimus</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
   </ItemGroup>
 </Project>
