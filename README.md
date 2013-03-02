@@ -46,15 +46,22 @@ Code Formatting
 * Never use tabs.
 * Always place { at the end of the same line, preceeded by a space.
 * Always indent the matching } to the same column as the first character on the line where the opening { was.
-* Always use { } after if, else, switch, foreach, for, while, do, try, catch, finally, using, unsafe, fixed.
+* Always use { } after if/else/switch/foreach/for/while/do/try/catch/finally/using/unsafe/fixed.
+* Always start case statements and goto labels on the same column as the containing block.
 * Never use a space between if/switch/foreach/for/while/catch/using/fixed and (.
 
 License
 -------
-Optimus is an open source library with an Apache 2.0 license.
+Optimus is an open source library under the Apache 2.0 license.
 
-Performance Status
-==================
+Documentation Guidelines
+========================
 
-This section shows the current status for provided implementations.  Note that since this library is not yet released, 
-none of the implementations are considered production ready.
+When creating new optimizations, make sure to capture findings for all variations analyzed.  The best available code can 
+sometimes be a given solution at a given time.  As the .Net/Mono runtime changes, it can also change what solution is 
+best.  Also, capturing intermediary steps makes it possible for others to avoid research those variations when they
+had already been investigate.
+
+* Make sure to capture baseline performance for the existing implementation or its closest approximation.
+* Capture the implementation with performance results for each variation.
+* Capture findings on this implementation, such as thoughts for improvement, surprises, and conclusions.
