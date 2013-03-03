@@ -36,14 +36,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Core" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="Text\" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="TestBase.cs" />
+    <Compile Include="Text\XStringTest\ReplaceAll.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Text\" />
+    <Folder Include="Text\XStringTest\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Optimus\Optimus.csproj">
