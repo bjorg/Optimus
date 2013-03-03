@@ -68,7 +68,7 @@ namespace OptimusTest {
             Console.WriteLine();
             Console.WriteLine("        --- {0} ---", testname);
             for(var i = 0; i < result.Length; ++i) {
-                Console.WriteLine("        #{0}: {1:#,##0} bytes, {2:#,##0.000} ms", i, result[i].MemoryUsage, result[i].Duration.TotalMilliseconds);
+                Console.WriteLine("        #{0}: {1:#,##0} bytes, {2:#,##0.000} ms", i + 1, result[i].MemoryUsage, result[i].Duration.TotalMilliseconds);
             }
             return result;
         }
